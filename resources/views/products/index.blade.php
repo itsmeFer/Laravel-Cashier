@@ -1,25 +1,21 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Products</title>
-</head>
-<body>
-    <h1>Products</h1>
-    <table>
-        <thead>
-            <tr>
-                <th>Name</th>
-                <th>Price</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach ($products as $product)
-                <tr>
-                    <td>{{ $product->name }}</td>
-                    <td>{{ $product->price }}</td>
-                </tr>
+@extends('layouts.app')
+
+@section('content')
+    <div class="container">
+        <h1 class="mb-4">Products</h1>
+
+        <div class="row">
+            @foreach($products as $product)
+                <div class="col-md-4 mb-4">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title">{{ $product->name }}</h5>
+                            <p class="card-text">${{ $product->price }}</p>
+                            <a href="{{ route('cart.add', $product->id) }}" class="btn btn-primary">Add to Cart</a>
+                        </div>
+                    </div>
+                </div>
             @endforeach
-        </tbody>
-    </table>
-</body>
-</html>
+        </div>
+    </div>
+@endsection
