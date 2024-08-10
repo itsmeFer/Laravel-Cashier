@@ -56,3 +56,18 @@ Route::delete('cart/remove/{id}', [CartController::class, 'removeFromCart'])->na
 Route::get('profile', [ProfileController::class, 'show'])->name('profile.show');
 
 Route::get('products', [ProductController::class, 'index'])->name('products.index');
+
+Auth::routes();
+
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+use App\Http\Controllers\AdminAuthController;
+
+Route::get('admin/login', [AdminAuthController::class, 'showLoginForm'])->name('admin.login');
+Route::post('admin/login', [AdminAuthController::class, 'login']);
+Route::post('admin/logout', [AdminAuthController::class, 'logout'])->name('admin.logout');
+Route::middleware('auth:admin')->prefix('admin')->name('admin.')->group(function () {
+    Route::resource('products', ProductController::class);
+});
+Route::post('admin/logout', [AdminAuthController::class, 'logout'])->name('admin.logout');
+
+Route::post('/logout', [LoginController::class, 'logout'])->name('logout');

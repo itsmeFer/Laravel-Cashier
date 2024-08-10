@@ -4,18 +4,32 @@
     <div class="container">
         <h1 class="mb-4">Products</h1>
 
-        <div class="row">
-            @foreach($products as $product)
-                <div class="col-md-4 mb-4">
-                    <div class="card">
-                        <div class="card-body">
-                            <h5 class="card-title">{{ $product->name }}</h5>
-                            <p class="card-text">${{ $product->price }}</p>
-                            <a href="{{ route('cart.add', $product->id) }}" class="btn btn-primary">Add to Cart</a>
-                        </div>
-                    </div>
-                </div>
-            @endforeach
-        </div>
+        <a href="{{ route('admin.products.create') }}" class="btn btn-primary mb-4">Add Product</a>
+
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Price</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach($products as $product)
+                    <tr>
+                        <td>{{ $product->name }}</td>
+                        <td>${{ $product->price }}</td>
+                        <td>
+                            <a href="{{ route('admin.products.edit', $product) }}" class="btn btn-warning btn-sm">Edit</a>
+                            <form action="{{ route('admin.products.destroy', $product) }}" method="POST" style="display:inline;">
+                                @csrf
+                                @method('DELETE')
+                                <button type="submit" class="btn btn-danger btn-sm">Delete</button>
+                            </form>
+                        </td>
+                    </tr>
+                @endforeach
+            </tbody>
+        </table>
     </div>
 @endsection
